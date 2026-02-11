@@ -4,7 +4,7 @@ var green =      "#4E9A06";
 var yellow =     "#C4A000";
 var blue =       "#C4548C";
 var magenta =    "#75507B";
-var cyan =       "#06989A";
+var cyan =       "#D27A58";
 var white =      "#D3D7CF";
 var lightBlack = "#555753";
 var lightRed =   "#EF2929";
@@ -12,7 +12,7 @@ var lightGreen = "#00BA13";
 var lightYellow ="#FCE94F";
 var lightBlue =  "#F78FC7";
 var lightMagenta="#F200CB";
-var lightCyan =  "#00B5BD";
+var lightCyan =  "#F0B190";
 var lightWhite = "#EEEEEC";
 
 term_set('color-palette-overrides',
