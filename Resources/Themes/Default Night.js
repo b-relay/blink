@@ -2,17 +2,17 @@ var black =      "#000000";
 var red =        "#CC0000";
 var green =      "#4E9A06";
 var yellow =     "#C4A000";
-var blue =       "#C4548C";
-var magenta =    "#75507B";
-var cyan =       "#C86D49";
+var blue =       "#8059AD";
+var magenta =    "#6D4F8A";
+var cyan =       "#5F6E93";
 var white =      "#D3D7CF";
 var lightBlack = "#555753";
 var lightRed =   "#EF2929";
 var lightGreen = "#00BA13";
 var lightYellow ="#FCE94F";
-var lightBlue =  "#E47BB4";
-var lightMagenta="#F200CB";
-var lightCyan =  "#D99879";
+var lightBlue =  "#9974BE";
+var lightMagenta="#9C6ABB";
+var lightCyan =  "#7686A9";
 var lightWhite = "#EEEEEC";
 
 var paletteOverrides = {
@@ -22,14 +22,14 @@ var paletteOverrides = {
   12: lightBlue, 13: lightMagenta, 14: lightCyan, 15: lightWhite,
 
   // 256-color blues/cyans that often appear in CLIs (e.g. 39, 45, 75, 81).
-  17: "#6B4A82", 18: "#74528B", 19: "#7D5A95", 20: "#86639E", 21: "#8E6BA7",
-  24: "#76564F", 25: "#7F5E58", 26: "#876762", 27: "#906F6B",
-  31: "#946D5D", 32: "#9D7666", 33: "#A67E6F",
-  38: "#AC7F6B", 39: "#B48874",
-  44: "#B48874", 45: "#BD917D", 51: "#C69A86",
-  69: "#B584A8", 75: "#BF8FB3", 81: "#C89ABE", 87: "#D1A5C9",
-  111: "#BE8EAF", 117: "#C799BA", 123: "#D0A4C5",
-  159: "#CFABC8", 195: "#D8B5D2"
+  17: "#4E4A84", 18: "#55508C", 19: "#5B5794", 20: "#625D9C", 21: "#6964A4",
+  24: "#4E5D78", 25: "#55657F", 26: "#5D6D87", 27: "#64758F",
+  31: "#5A6C86", 32: "#62748E", 33: "#697C96",
+  38: "#6A7F98", 39: "#7287A0",
+  44: "#7287A0", 45: "#7A8FA8", 51: "#8397B0",
+  69: "#705C9E", 75: "#7965A7", 81: "#836EB0", 87: "#8D77B9",
+  111: "#806AAA", 117: "#8973B3", 123: "#927CBC",
+  159: "#9A86C3", 195: "#A391CB"
 };
 
 term_set('color-palette-overrides', paletteOverrides);
