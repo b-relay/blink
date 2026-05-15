@@ -58,15 +58,18 @@ enum Command: String, Codable, CaseIterable {
   case zoomOut
   case zoomReset
   case clipboardCopy
+  case clipboardCopyRaw
   case clipboardPaste
   case selectionGoogle
   case selectionStackOverflow
   case selectionShare
   case configShow
   case snippetsShow
+  case scratchShow
   case toggleQuickActions
   case toggleGeoTrack
-  
+  case hideKeyboard
+
   var title: String {
     switch self {
     case .windowNew:              return "New Window"
@@ -97,14 +100,17 @@ enum Command: String, Codable, CaseIterable {
     case .zoomOut:                return "Zoom Out"
     case .zoomReset:              return "Zoom Reset"
     case .clipboardCopy:          return "Copy"
+    case .clipboardCopyRaw:       return "Copy Raw"
     case .clipboardPaste:         return "Paste"
     case .selectionGoogle:        return "Google Selection"
     case .selectionStackOverflow: return "StackOverflow Selection"
     case .selectionShare:         return "Share Selection"
     case .configShow:             return "Show Config"
     case .snippetsShow:           return "Show Snippets"
+    case .scratchShow:            return "Show Scratch"
     case .toggleQuickActions:     return "Toggle Quick Actions"
     case .toggleGeoTrack:         return "Toggle Geo Track"
+    case .hideKeyboard:           return "Hide Keyboard"
     }
   }
 }

@@ -68,7 +68,59 @@ class SpaceController: UIViewController, LayoutInsetsProvider {
   private var _snippetsVC: SnippetsViewController? = nil
   private var _blinkMenu: BlinkMenu? = nil
   private var _bottomTapAreaView = UIView()
-  
+
+  // Snips Input Mode tracking
+  private var _isSnipsInputModeActive: Bool = false {
+    didSet {
+      guard _isSnipsInputModeActive != oldValue else { return }
+      _configureCapabilitiesForSnipsInputMode(_isSnipsInputModeActive)
+    }
+  }
+
+  var isSnipsInputModeActive: Bool {
+    _isSnipsInputModeActive
+  }
+
+  // Capability flags - independent state that controls what's allowed
+  private var canTerminalBecomeFirstResponder: Bool = true {
+    didSet {
+      guard canTerminalBecomeFirstResponder != oldValue else { return }
+      currentTerm()?.shouldBlockFirstResponder = !canTerminalBecomeFirstResponder
+    }
+  }
+
+  private var canDisplayHUD: Bool = true {
+    didSet {
+      guard canDisplayHUD != oldValue else { return }
+      if !canDisplayHUD {
+        _hud?.hide(animated: false)
+      }
+    }
+  }
+
+  private var canSwitchPages: Bool = true {
+    didSet {
+      guard canSwitchPages != oldValue else { return }
+      _setPageViewControllerScrollEnabled(canSwitchPages)
+    }
+  }
+
+  // Configure capabilities based on input mode
+  private func _configureCapabilitiesForSnipsInputMode(_ active: Bool) {
+    canTerminalBecomeFirstResponder = !active
+    canDisplayHUD = !active
+    canSwitchPages = !active
+  }
+
+  private func _setPageViewControllerScrollEnabled(_ enabled: Bool) {
+    // Find and enable/disable scroll gesture recognizers
+    for view in _viewportsController.view.subviews {
+      if let scrollView = view as? UIScrollView {
+        scrollView.isScrollEnabled = enabled
+      }
+    }
+  }
+
   // UIKeyboardLayoutGuide Integration
   private var keyboardLayoutGuide: UIKeyboardLayoutGuide?
   private var overlayBottomConstraint: NSLayoutConstraint?
@@ -481,6 +533,10 @@ Please go to your subscriptions and cancel one of them!
   
   
   private func _attachInputToCurrentTerm() {
+    // Check capability flag instead of mode directly
+    guard canTerminalBecomeFirstResponder else {
+      return
+    }
     currentTerm()?.activateInput()
   }
   
@@ -490,7 +546,12 @@ Please go to your subscriptions and cancel one of them!
   
   private func _displayHUD() {
     _hud?.hide(animated: false)
-    
+
+    // Check capability flag instead of mode directly
+    guard canDisplayHUD else {
+      return
+    }
+
     guard let term = currentTerm() else {
       return
     }
@@ -622,7 +683,7 @@ extension SpaceController: UIPageViewControllerDataSource {
   public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
     _controller(controller: viewController, advancedBy: -1)
   }
-  
+
   public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
     _controller(controller: viewController, advancedBy: 1)
   }
@@ -719,6 +780,7 @@ extension SpaceController {
     switch cmd {
     case .configShow: showConfigAction()
     case .snippetsShow: showSnippetsAction()
+    case .scratchShow: showScratchAction()
     case .toggleQuickActions: toggleQuickActionsAction()
     case .toggleGeoTrack: toggleGeoTrack()
     case .tab1: _moveToShell(idx: 0)
@@ -746,6 +808,7 @@ extension SpaceController {
     case .windowFocusOther: _focusOtherWindowAction()
     case .windowNew: _newWindowAction()
     case .clipboardCopy: KBTracker.shared.input?.copy(self)
+    case .clipboardCopyRaw: KBTracker.shared.input?.copyRaw(self)
     case .clipboardPaste: KBTracker.shared.input?.paste(self)
     case .selectionGoogle: KBTracker.shared.input?.googleSelection(self)
     case .selectionStackOverflow: KBTracker.shared.input?.soSelection(self)
@@ -753,7 +816,8 @@ extension SpaceController {
     case .zoomIn: currentTerm()?.termDevice.view?.increaseFontSize()
     case .zoomOut: currentTerm()?.termDevice.view?.decreaseFontSize()
     case .zoomReset: currentTerm()?.termDevice.view?.resetFontSize()
-    
+    case .hideKeyboard: KBTracker.shared.input?.resignFirstResponder()
+
     }
   }
   
@@ -963,12 +1027,26 @@ extension SpaceController {
     if let _ = _snippetsVC {
       return
     }
+    self.currentTerm()?.resignInput()
+
     self.presentSnippetsController()
     if let _ = self._interactiveSpaceController()._blinkMenu {
       self.toggleQuickActionsAction()
     }
   }
-  
+
+  @objc func showScratchAction() {
+    if let _ = _snippetsVC {
+      return
+    }
+    self.currentTerm()?.resignInput()
+
+    self.presentSnippetsControllerWithScratch()
+    // if let _ = self._interactiveSpaceController()._blinkMenu {
+    //   self.toggleQuickActionsAction()
+    // }
+  }
+
   private func _toggleQuickActionActionWith(receiver: SpaceController) {
     if let menu = _blinkMenu {
       _blinkMenu = nil
@@ -1056,23 +1134,38 @@ extension SpaceController {
   @objc func showWhatsNewAction() {
     if let shadowWindow = ShadowWindow.shared,
       view.window == shadowWindow {
-      
+
       _ = currentDevice?.view?.webView.resignFirstResponder()
-      
+
       let spCtrl = shadowWindow.windowScene?.windows.first?.rootViewController as? SpaceController
       spCtrl?.showWhatsNewAction()
-      
+
       return
     }
-    
+
     DispatchQueue.main.async {
       self.currentTerm()?.resignInput()
-      
-      // Reset version when opening.
       WhatsNewInfo.setNewVersion()
-      let root = UIHostingController(rootView: GridView(rowsProvider: RowsViewModel(baseURL: XCConfig.infoPlistWhatsNewURL())))
-      self.present(root, animated: true, completion: nil)
-      
+
+      let urlString = XCConfig.infoPlistWhatsNewGithubURL()
+
+      if let url = URL(string: urlString) {
+        let redirectURL = url.customerTierURL()
+        var request = URLRequest(url: redirectURL)
+        request.httpMethod = "HEAD"
+
+        URLSession.shared.dataTask(with: request) { _, response, error in
+          if error == nil,
+             let httpResponse = response as? HTTPURLResponse,
+             httpResponse.statusCode == 302,
+             let finalURL = response?.url {
+            blink_openurl(finalURL)
+          } else {
+            // Fallback if we cannot get the current announcement
+            blink_openurl(URL(string: "https://github.com/blinksh/blink/discussions/categories/announcements")!)
+          }
+        }.resume()
+      }
     }
   }
   
@@ -1175,10 +1268,11 @@ extension SpaceController: CommandsHUDDelegate {
 
 extension SpaceController: SnippetContext {
   
-  func _presentSnippetsController(receiver: SpaceController) {
+  func _presentSnippetsController(receiver: SpaceController, openScratch: Bool = false) {
     do {
       self.view.window?.makeKeyAndVisible()
       let ctrl = try SnippetsViewController.create(context: receiver, transitionFrame: _blinkMenu?.bounds)
+      ctrl.pendingOpenScratch = openScratch
       DispatchQueue.main.async {
         ctrl.view.frame = self.view.bounds
         ctrl.willMove(toParent: self)
@@ -1186,14 +1280,19 @@ extension SpaceController: SnippetContext {
         self.addChild(ctrl)
         ctrl.didMove(toParent: self)
         self._snippetsVC = ctrl
+        self._isSnipsInputModeActive = true
       }
     } catch {
       self.showAlert(msg: "Could not display Snips: \(error)")
     }
   }
-  
+
   func presentSnippetsController() {
     _interactiveSpaceController()._presentSnippetsController(receiver: self)
+  }
+
+  func presentSnippetsControllerWithScratch() {
+    _interactiveSpaceController()._presentSnippetsController(receiver: self, openScratch: true)
   }
   
   func _dismissSnippetsController(ctrl: SpaceController) {
@@ -1203,6 +1302,7 @@ extension SpaceController: SnippetContext {
     ctrl._snippetsVC?.removeFromParent()
     ctrl._snippetsVC?.didMove(toParent: nil)
     ctrl._snippetsVC = nil
+    ctrl._isSnipsInputModeActive = false
   }
   
   func dismissSnippetsController() {
@@ -1214,5 +1314,5 @@ extension SpaceController: SnippetContext {
     self.focusOnShellAction()
     return self.currentDevice
   }
-  
+
 }

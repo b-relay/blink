@@ -421,24 +421,42 @@ extension KBView: KBKeyViewDelegate {
     if keyView !== _repeatingKeyView {
       stopRepeats()
     }
-    
+
     defer { turnOffUntracked() }
-    
+
     guard let keyInput = keyInput
     else {
       return
     }
-    
+
+    // Handle command buttons (hideKB, etc.) - send directly as commands
+    if value.isCommand, let commandName = value.input {
+      keyInput.onCommand(commandName)
+      return
+    }
+
     let keyCode = value.keyCode
     var keyId = keyCode.id
     keyId += ":\(value.text)"
-    
+
     var flags = traits.modifierFlags
     if keyInput.trackingModifierFlags.contains(.shift) {
       flags.insert(.shift)
     }
-    
-    if let input = value.input,
+
+    // For shifted characters like < and >, we need to shift the modifier to match "Shift+,"
+    var inputForMatching = value.input
+    if case .text(let ch) = value {
+      if ch == "<" {
+        flags.insert(.shift)
+        inputForMatching = ","
+      } else if ch == ">" {
+        flags.insert(.shift)
+        inputForMatching = "."
+      }
+    }
+
+    if let input = inputForMatching,
       flags.rawValue > 0,
       let (cmd, responder) = keyInput.matchCommand(input: input, flags: flags),
       let action = cmd.action  {

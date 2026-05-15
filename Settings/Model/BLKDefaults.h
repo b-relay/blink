@@ -88,9 +88,10 @@ typedef NS_ENUM(NSInteger, BKSnippetDefaultLocation) {
 @property (nonatomic) BOOL compactQuickActions;
 @property (nonatomic) BOOL dontUseBlinkSnippetsIndex;
 @property (nonatomic) BKSnippetDefaultLocation snippetsDefaultLocation;
+@property (nonatomic, strong) NSString *scratchLanguageMode;
 
-+ (void)loadDefaults;
-+ (BOOL)saveDefaults;
++ (void)loadDefaults NS_SWIFT_NAME(loadDefaults());
++ (BOOL)saveDefaults NS_SWIFT_NAME(save());
 + (void)setCursorBlink:(BOOL)state;
 + (void)setBoldAsBright:(BOOL)state;
 + (void)setEnableBold:(NSUInteger)state;
@@ -140,7 +141,16 @@ typedef NS_ENUM(NSInteger, BKSnippetDefaultLocation) {
 + (BOOL)compactQuickActions;
 + (BOOL) dontUseBlinkSnippetsIndex;
 + (BKSnippetDefaultLocation) snippetsDefaultLocation;
++ (void)setScratchLanguageMode:(NSString *)mode;
++ (NSString *)scratchLanguageMode;
 
 
 + (void)applyExternalScreenCompensation:(BKOverscanCompensation)value;
+
+// Direct access to the raw persisted instance.
+// Used by migrators that need to read/reset legacy values.
+// At one point BKDefaults should lose its methods and the Migrators should own the structure
+// for compatibility purposes.
++ (instancetype)legacyInstance;
+
 @end

@@ -98,6 +98,13 @@
 		BD4DBAFC2CADB3AF00538194 /* WorkingSetDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4DBAFB2CADB3AF00538194 /* WorkingSetDatabase.swift */; };
 		BD4F79F82CB4975E00FE67EA /* WorkingSetDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4F79F72CB4975E00FE67EA /* WorkingSetDatabaseTests.swift */; };
 		BD4F7A072CBC9FD300FE67EA /* FileTranslatorConnectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4F7A062CBC9FD300FE67EA /* FileTranslatorConnectionTests.swift */; };
+		BD55D6982F7D743500EE80EA /* TerminalStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD55D6952F7D743400EE80EA /* TerminalStyle.swift */; };
+		BD55D6992F7D743500EE80EA /* TerminalStyleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD55D6972F7D743400EE80EA /* TerminalStyleStore.swift */; };
+		BD55D69A2F7D743500EE80EA /* TerminalStyleBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD55D6962F7D743400EE80EA /* TerminalStyleBundle.swift */; };
+		BD55D69C2F7D744B00EE80EA /* TerminalStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD55D69B2F7D744B00EE80EA /* TerminalStyleTests.swift */; };
+		BD55D6A02F8D000100EE80EA /* StyleCustomizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD55D69E2F8D000100EE80EA /* StyleCustomizationView.swift */; };
+		BD55D6A12F8D000100EE80EA /* DisplaySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD55D69F2F8D000100EE80EA /* DisplaySettingsView.swift */; };
+		BD55D7152F816AFC00EE80EA /* 1860Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD55D7142F816AFC00EE80EA /* 1860Migration.swift */; };
 		BD67FC79272B30F300C1EE75 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD67FC78272B30F300C1EE75 /* Messages.swift */; };
 		BD67FC81272DF22700C1EE75 /* BlinkConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDCB715E268E1577007D7047 /* BlinkConfig.framework */; };
 		BD67FC85272E3FF800C1EE75 /* SSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07FABB8425C9AEC000E1CC2C /* SSH.framework */; };
@@ -316,7 +323,6 @@
 		D2334F0C25C1C3C600385378 /* OpenSSH.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2334F0A25C1C3A000385378 /* OpenSSH.xcframework */; };
 		D23742CA21106ADF00366359 /* bench.m in Sources */ = {isa = PBXBuildFile; fileRef = D23742C921106ADF00366359 /* bench.m */; };
 		D238675426EA76E6003A82A1 /* OwnAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB8BEA726E008190093BF48 /* OwnAlertController.swift */; };
-		D23890BD2900175100B5CEA6 /* FeatureColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23890BC2900175100B5CEA6 /* FeatureColorPalette.swift */; };
 		D23A7B25233C934900B3B66D /* UIColor+isLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23A7B24233C934900B3B66D /* UIColor+isLight.swift */; };
 		D23AA645223EA3C40020FA77 /* BKXCallBackUrlConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D23AA644223EA3C40020FA77 /* BKXCallBackUrlConfigurationViewController.m */; };
 		D23B4C6E2A6FCAC2002E689B /* SearchTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22277F92A26204900D4C708 /* SearchTextInput.swift */; };
@@ -357,8 +363,6 @@
 		D25DE9C12939EB36008246EB /* NonStdIO+ArgumentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25DE9BE2939EB36008246EB /* NonStdIO+ArgumentParser.swift */; };
 		D25DE9C22939EB36008246EB /* NonStdIO+Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25DE9BF2939EB36008246EB /* NonStdIO+Spinner.swift */; };
 		D263A7682AA9AFE7001C6CFC /* device_info.m in Sources */ = {isa = PBXBuildFile; fileRef = D263A7672AA9AFE7001C6CFC /* device_info.m */; };
-		D264D2B228F84592002B1B14 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264D2AF28F84592002B1B14 /* GridView.swift */; };
-		D264D2B328F84592002B1B14 /* UnavailErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264D2B028F84592002B1B14 /* UnavailErrorView.swift */; };
 		D264D2B428F84592002B1B14 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = D264D2B128F84592002B1B14 /* Models.swift */; };
 		D264D2B628F84724002B1B14 /* whatsnew.m in Sources */ = {isa = PBXBuildFile; fileRef = D264D2B528F84724002B1B14 /* whatsnew.m */; };
 		D265FBC52317E5090017EAC4 /* SessionParamsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D265FBC42317E5090017EAC4 /* SessionParamsTests.swift */; };
@@ -875,6 +879,13 @@
 		BD4DBAFB2CADB3AF00538194 /* WorkingSetDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSetDatabase.swift; sourceTree = "<group>"; };
 		BD4F79F72CB4975E00FE67EA /* WorkingSetDatabaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkingSetDatabaseTests.swift; sourceTree = "<group>"; };
 		BD4F7A062CBC9FD300FE67EA /* FileTranslatorConnectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTranslatorConnectionTests.swift; sourceTree = "<group>"; };
+		BD55D6952F7D743400EE80EA /* TerminalStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalStyle.swift; sourceTree = "<group>"; };
+		BD55D6962F7D743400EE80EA /* TerminalStyleBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalStyleBundle.swift; sourceTree = "<group>"; };
+		BD55D6972F7D743400EE80EA /* TerminalStyleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalStyleStore.swift; sourceTree = "<group>"; };
+		BD55D69B2F7D744B00EE80EA /* TerminalStyleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalStyleTests.swift; sourceTree = "<group>"; };
+		BD55D69E2F8D000100EE80EA /* StyleCustomizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleCustomizationView.swift; sourceTree = "<group>"; };
+		BD55D69F2F8D000100EE80EA /* DisplaySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySettingsView.swift; sourceTree = "<group>"; };
+		BD55D7142F816AFC00EE80EA /* 1860Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 1860Migration.swift; sourceTree = "<group>"; };
 		BD67FC78272B30F300C1EE75 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		BD67FC9A2732D4D300C1EE75 /* BackgroundTaskMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskMonitor.swift; sourceTree = "<group>"; };
 		BD74A7A6290061DE00ED01CF /* WhatsNewInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewInfo.swift; sourceTree = "<group>"; };
@@ -1071,7 +1082,6 @@
 		D2334F0A25C1C3A000385378 /* OpenSSH.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OpenSSH.xcframework; path = xcfs/.build/artifacts/xcfs/OpenSSH/OpenSSH.xcframework; sourceTree = SOURCE_ROOT; };
 		D235579622CE07D20094AADB /* Blink-bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Blink-bridge.h"; sourceTree = "<group>"; };
 		D23742C921106ADF00366359 /* bench.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bench.m; sourceTree = "<group>"; };
-		D23890BC2900175100B5CEA6 /* FeatureColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureColorPalette.swift; sourceTree = "<group>"; };
 		D23A7B24233C934900B3B66D /* UIColor+isLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+isLight.swift"; sourceTree = "<group>"; };
 		D23AA643223EA3C40020FA77 /* BKXCallBackUrlConfigurationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BKXCallBackUrlConfigurationViewController.h; sourceTree = "<group>"; };
 		D23AA644223EA3C40020FA77 /* BKXCallBackUrlConfigurationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BKXCallBackUrlConfigurationViewController.m; sourceTree = "<group>"; };
@@ -1110,8 +1120,6 @@
 		D25DE9BE2939EB36008246EB /* NonStdIO+ArgumentParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NonStdIO+ArgumentParser.swift"; sourceTree = "<group>"; };
 		D25DE9BF2939EB36008246EB /* NonStdIO+Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NonStdIO+Spinner.swift"; sourceTree = "<group>"; };
 		D263A7672AA9AFE7001C6CFC /* device_info.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = device_info.m; sourceTree = "<group>"; };
-		D264D2AF28F84592002B1B14 /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
-		D264D2B028F84592002B1B14 /* UnavailErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnavailErrorView.swift; sourceTree = "<group>"; };
 		D264D2B128F84592002B1B14 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		D264D2B528F84724002B1B14 /* whatsnew.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = whatsnew.m; sourceTree = "<group>"; };
 		D265FBBA2317DD3C0017EAC4 /* BlinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1843,6 +1851,7 @@
 		BD9EA1ED2719D28800874007 /* Migrator */ = {
 			isa = PBXGroup;
 			children = (
+				BD55D7142F816AFC00EE80EA /* 1860Migration.swift */,
 				BD9EA1FD271A148700874007 /* 1400Migration.swift */,
 				D2B1DEB42A669342001C6D3B /* 1620Migration.swift */,
 				BD88697A2CF4DD9A00F71119 /* 1810Migration.swift */,
@@ -1956,6 +1965,8 @@
 				C989E5531D6CC4A1003E0079 /* BKFontCreateViewController.m */,
 				C989E5541D6CC4A1003E0079 /* BKThemeCreateViewController.h */,
 				C989E5551D6CC4A1003E0079 /* BKThemeCreateViewController.m */,
+				BD55D69E2F8D000100EE80EA /* StyleCustomizationView.swift */,
+				BD55D69F2F8D000100EE80EA /* DisplaySettingsView.swift */,
 			);
 			name = Appearance;
 			path = Settings/ViewControllers/Appearance;
@@ -2008,6 +2019,9 @@
 				C9B2E0101D6B612300B89F69 /* BKTheme.m */,
 				D28C357526A56DDE00202C4D /* FileProviderDomain.swift */,
 				BDB129F22D077EB3006970A1 /* BookmarkedLocationsManager.swift */,
+				BD55D6952F7D743400EE80EA /* TerminalStyle.swift */,
+				BD55D6962F7D743400EE80EA /* TerminalStyleBundle.swift */,
+				BD55D6972F7D743400EE80EA /* TerminalStyleStore.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2196,10 +2210,7 @@
 		D264D2AE28F8457A002B1B14 /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
-				D264D2AF28F84592002B1B14 /* GridView.swift */,
 				D264D2B128F84592002B1B14 /* Models.swift */,
-				D264D2B028F84592002B1B14 /* UnavailErrorView.swift */,
-				D23890BC2900175100B5CEA6 /* FeatureColorPalette.swift */,
 				BD74A7A6290061DE00ED01CF /* WhatsNewInfo.swift */,
 			);
 			path = WhatsNew;
@@ -2217,6 +2228,7 @@
 				D265FBC42317E5090017EAC4 /* SessionParamsTests.swift */,
 				BD74A7C12905BD5800ED01CF /* WhatsNewModelTests.swift */,
 				BD33F7862AAA7C4300CD16EE /* MoshBootstrapTests.swift */,
+				BD55D69B2F7D744B00EE80EA /* TerminalStyleTests.swift */,
 			);
 			path = BlinkTests;
 			sourceTree = "<group>";
@@ -3422,6 +3434,7 @@
 				BD74A7C22905BD5800ED01CF /* WhatsNewModelTests.swift in Sources */,
 				BDE7C45C29DCAEFA005E033E /* FileLocationPathTests.swift in Sources */,
 				BD9EA217271F846100874007 /* BlinkLogging.swift in Sources */,
+				BD55D69C2F7D744B00EE80EA /* TerminalStyleTests.swift in Sources */,
 				D20CBA4F2360319600D93301 /* NSCoder+CodingKey.swift in Sources */,
 				D243F17E2602438D00097A2F /* XCTestCase.swift in Sources */,
 				D2CB059A273BBB0800394A4F /* SEKey.swift in Sources */,
@@ -3448,7 +3461,6 @@
 				D241CBDF23040734003D64A5 /* KBKeyAccessibilityElement.swift in Sources */,
 				D2DE0DDE260331F300A69B6F /* NewKeyView.swift in Sources */,
 				D27C4DA42987F124008427F2 /* BuildHelp.swift in Sources */,
-				D23890BD2900175100B5CEA6 /* FeatureColorPalette.swift in Sources */,
 				D2D75EE021AFDA10007336B6 /* LayoutManager.m in Sources */,
 				D241CBD923040734003D64A5 /* KBKeyView.swift in Sources */,
 				803B99D72582869200DC99C8 /* BKNotificationsView.swift in Sources */,
@@ -3514,6 +3526,8 @@
 				D259479C269C671F008B5305 /* MoshCustomOptionsPickerView.swift in Sources */,
 				07FAB8F025C8E6C500E1CC2C /* Helpers.swift in Sources */,
 				C989E5561D6CC4A1003E0079 /* BKAppearanceViewController.m in Sources */,
+				BD55D6A02F8D000100EE80EA /* StyleCustomizationView.swift in Sources */,
+				BD55D6A12F8D000100EE80EA /* DisplaySettingsView.swift in Sources */,
 				BD88697B2CF4DDAD00F71119 /* 1810Migration.swift in Sources */,
 				D2E5454A27C4D422002635A2 /* SupportView.swift in Sources */,
 				D2D8DD9823C8506900BFF223 /* LockView.swift in Sources */,
@@ -3554,7 +3568,6 @@
 				07E3AEC61D9190CF007BC086 /* BKAboutViewController.m in Sources */,
 				D2F330D620A6F4F50074ADD7 /* history.m in Sources */,
 				BD74A7A7290061DE00ED01CF /* WhatsNewInfo.swift in Sources */,
-				D264D2B228F84592002B1B14 /* GridView.swift in Sources */,
 				D2A54CB129801062009D79FE /* BuildAccountModel.swift in Sources */,
 				BD818A0C2AB120B800956488 /* MoshServerParams.swift in Sources */,
 				D2C24418238E44AB0082C69C /* KBConfigView.swift in Sources */,
@@ -3604,6 +3617,9 @@
 				D241CBDB23040734003D64A5 /* KBAccessoryView.swift in Sources */,
 				07FAB8F225C8E6C500E1CC2C /* ssh.swift in Sources */,
 				BD98AC84260BD8DC00B4E6A1 /* SSHAgentAdd.swift in Sources */,
+				BD55D6982F7D743500EE80EA /* TerminalStyle.swift in Sources */,
+				BD55D6992F7D743500EE80EA /* TerminalStyleStore.swift in Sources */,
+				BD55D69A2F7D743500EE80EA /* TerminalStyleBundle.swift in Sources */,
 				D2D8DD9023C84A6E00BFF223 /* StuckView.swift in Sources */,
 				B7A487651DC7BD65007BA809 /* BKDefaultUserViewController.m in Sources */,
 				D2C24421238E44AB0082C69C /* KeyConfigView.swift in Sources */,
@@ -3638,10 +3654,10 @@
 				D23A7B25233C934900B3B66D /* UIColor+isLight.swift in Sources */,
 				D22277FE2A26204900D4C708 /* SnippetView.swift in Sources */,
 				D2499BEC2362EFD40009C701 /* cpp.cpp in Sources */,
-				D264D2B328F84592002B1B14 /* UnavailErrorView.swift in Sources */,
 				BDF40FEB2C14A6CE00DF41C1 /* AgentSettingsView.swift in Sources */,
 				D2B788852949C53100F19E4F /* BuildView.swift in Sources */,
 				D20CBA5A2360324100D93301 /* CompleteUtils.swift in Sources */,
+				BD55D7152F816AFC00EE80EA /* 1860Migration.swift in Sources */,
 				D265FBC9231905AC0017EAC4 /* NSCoder+CodingKey.swift in Sources */,
 				D2D878632695AEBA00F78018 /* HostView.swift in Sources */,
 				D2AD8E8427A2C80C00DED28D /* SettingsView.swift in Sources */,
@@ -4188,7 +4204,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1073;
+				CURRENT_PROJECT_VERSION = 2005;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -4202,7 +4218,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 18.5.1;
+				MARKETING_VERSION = 18.6.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID).BlinkFileProviderExtension";
@@ -4234,7 +4250,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1073;
+				CURRENT_PROJECT_VERSION = 2005;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = BlinkFileProviderExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Blink;
@@ -4244,7 +4260,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 18.5.1;
+				MARKETING_VERSION = 18.6.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID).BlinkFileProviderExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4462,7 +4478,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1073;
+				CURRENT_PROJECT_VERSION = 2005;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -4478,7 +4494,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 18.5.1;
+				MARKETING_VERSION = 18.6.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID).BlinkFileProviderExtensionUI";
@@ -4508,7 +4524,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1073;
+				CURRENT_PROJECT_VERSION = 2005;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BlinkFileProviderExtensionUI/Info.plist;
@@ -4520,7 +4536,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 18.5.1;
+				MARKETING_VERSION = 18.6.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID).BlinkFileProviderExtensionUI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5291,7 +5307,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1078;
+				CURRENT_PROJECT_VERSION = 2007;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -5315,7 +5331,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				MARKETING_VERSION = 18.4.4;
+				MARKETING_VERSION = 18.6.2;
 				NEW_SETTING = "";
 				OTHER_CFLAGS = "$(BLINK_OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -5345,7 +5361,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1078;
+				CURRENT_PROJECT_VERSION = 2007;
 				DEAD_CODE_STRIPPING = NO;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 88A2E3KVXF;
@@ -5363,7 +5379,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				MARKETING_VERSION = 18.4.4;
+				MARKETING_VERSION = 18.6.2;
 				NEW_SETTING = "";
 				OTHER_CFLAGS = "$(BLINK_OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (

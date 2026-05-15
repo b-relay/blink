@@ -154,7 +154,6 @@ function term_init(accessibilityEnabled, lockdownMode) {
     //    document.body.style.backgroundColor = bgColor;
     //    document.body.parentNode.style.backgroundColor = bgColor;
     if (lockdownMode) {
-      term_set('font-family', 'monospace');
       term_setup(accessibilityEnabled);
     } else {
       waitForFontFamily(term_setup);
@@ -382,7 +381,7 @@ function term_getCurrentSelection() {
   return {
     base: selection.baseNode.textContent,
     offset: selection.baseOffset,
-    text: t.getSelectionText() || "",
+    text: selection.toString() || "",
     rect,
   };
 }

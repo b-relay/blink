@@ -76,6 +76,7 @@ extern NSString * TermViewBrowserReadyNotificationKey;
 @property (nonatomic, readonly) SmarterTermInput *webView;
 @property (nonatomic, readonly) SmarterTermInput *browserView;
 
+- (void)setCmdKeyPressed:(BOOL)pressed;
 
 - (CGRect)webViewFrame;
 - (void)loadWith:(MCPParams *)params;
@@ -91,6 +92,7 @@ extern NSString * TermViewBrowserReadyNotificationKey;
 - (void)setClipboardWrite:(BOOL)state;
 - (void)applyTheme:(NSString *)themeName;
 - (void)copy:(id _Nullable )sender;
+- (void)copyRaw:(id _Nullable )sender;
 - (void)pasteSelection:(id _Nullable)sender;
 - (void)terminate;
 - (void)reset;

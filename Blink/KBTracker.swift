@@ -89,10 +89,33 @@ class KBTracker: NSObject {
       else {
         return KBConfig()
     }
+
+    // Single shortcut per action.
+    var seenActions = Set<String>()
+    cfg.shortcuts.removeAll { shortcut in
+      if seenActions.contains(shortcut.action.id) { return true }
+      seenActions.insert(shortcut.action.id)
+      return false
+    }
+
+    // Merge in any new default commands not already present
+    for defaultShortcut in KeyShortcut.defaultList {
+      let commandExists = cfg.shortcuts.contains { shortcut in
+        if case .command(let cmd) = shortcut.action,
+           case .command(let defaultCmd) = defaultShortcut.action {
+          return cmd == defaultCmd
+        }
+        return false
+      }
+
+      if !commandExists {
+        cfg.shortcuts.append(defaultShortcut)
+      }
+    }
     return cfg;
   }
   
-  func saveAndApply(config: KBConfig) {
+  func save(config: KBConfig) {
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
     guard
@@ -101,15 +124,15 @@ class KBTracker: NSObject {
       else {
         return
     }
-    
+
     try? data.write(to: url, options: .atomicWrite)
-    input?.configure(config)
     UIMenuSystem.main.setNeedsRebuild()
   }
   
   func attach(input: SmarterTermInput?) {
     self.input = input
     input?.sync(traits: kbTraits, device: kbDevice, hideSmartKeysWithHKB: hideSmartKeysWithHKB)
+    input?.configure(loadConfig())
   }
   
   override init() {

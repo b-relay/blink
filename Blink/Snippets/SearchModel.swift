@@ -67,6 +67,8 @@ class SearchModel: ObservableObject {
   @Published var editingMode: TextViewEditingMode = .template
   @Published var newSnippetPresented = false
   @Published var indexProgress: SnippetsLocations.RefreshProgress = .none
+  @Published var isPinnedMode = false
+  @Published var languageMode: LanguageMode = .shell
   let defaultShellOutputFormatter = ShellOutputFormatter.lineBySemicolon
 
   let snippetsLocations: SnippetsLocations
@@ -174,19 +176,13 @@ class SearchModel: ObservableObject {
     self.close()
   }
 
-  func editSelectionOrCreate() {
-    let snippet: Snippet
-    if currentSelection == nil {
-      if self.input.isEmpty {
-        snippet = Snippet.scratch()
-        self.editingMode = .code
-      } else {
-        openNewSnippet()
-        return
-      }
-    } else {
-      snippet = currentSelection!
-      self.editingMode = .template
+  func openScratch() {
+    let snippet = Snippet.scratch()
+    self.editingMode = .code
+
+    // Restore saved language mode for scratch
+    if let savedMode = LanguageMode(rawValue: BLKDefaults.scratchLanguageMode()) {
+      self.languageMode = savedMode
     }
 
     self.currentSnippetName = snippet.fuzzyIndex
@@ -195,20 +191,69 @@ class SearchModel: ObservableObject {
     let textView = TextViewBuilder.createForSnippetEditing()
     let editorCtrl = EditorViewController(textView: textView, model: self)
     let navCtrl = UINavigationController(rootViewController: editorCtrl)
-    navCtrl.modalPresentationStyle = .formSheet
+    navCtrl.modalPresentationStyle = .pageSheet
+    navCtrl.isModalInPresentation = isPinnedMode
 
     if let sheetCtrl = navCtrl.sheetPresentationController {
-      sheetCtrl.prefersGrabberVisible = true
-      sheetCtrl.prefersEdgeAttachedInCompactHeight = true
-      sheetCtrl.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-
-      sheetCtrl.detents = [
-        .custom(resolver: { context in
-          120
-        }),
-        .medium(), .large()
-      ]
+      if KBTracker.shared.isHardwareKB {
+        sheetCtrl.detents = [
+          .custom(resolver: { context in 120 }),
+          .medium(),
+          .large()
+        ]
+      } else {
+        sheetCtrl.detents = [.custom(resolver: { context in 120 }), .large()]
+      }
       sheetCtrl.largestUndimmedDetentIdentifier = .large
+      sheetCtrl.prefersGrabberVisible = true
+    }
+    rootCtrl?.present(navCtrl, animated: false)
+  }
+
+  func editSelectionOrCreate() {
+    let snippet: Snippet
+
+    // Scratch mode
+    if currentSelection == nil {
+      if self.input.isEmpty {
+        snippet = Snippet.scratch()
+        self.editingMode = .code
+
+        if let savedMode = LanguageMode(rawValue: BLKDefaults.scratchLanguageMode()) {
+          self.languageMode = savedMode
+        }
+      } else {
+        openNewSnippet()
+        return
+      }
+    } else {
+      snippet = currentSelection!
+      self.editingMode = .template
+      // Current snippets always use shell mode
+      self.languageMode = .shell
+    }
+
+    self.currentSnippetName = snippet.fuzzyIndex
+    self.editingSnippet = snippet
+
+    let textView = TextViewBuilder.createForSnippetEditing()
+    let editorCtrl = EditorViewController(textView: textView, model: self)
+    let navCtrl = UINavigationController(rootViewController: editorCtrl)
+    navCtrl.modalPresentationStyle = .pageSheet
+    navCtrl.isModalInPresentation = isPinnedMode
+
+    if let sheetCtrl = navCtrl.sheetPresentationController {
+      if KBTracker.shared.isHardwareKB {
+        sheetCtrl.detents = [
+          .custom(resolver: { context in 120 }),
+          .medium(),
+          .large()
+        ]
+      } else {
+        sheetCtrl.detents = [.custom(resolver: { context in 120 }), .large()]
+      }
+      sheetCtrl.largestUndimmedDetentIdentifier = .large
+      sheetCtrl.prefersGrabberVisible = true
     }
     rootCtrl?.present(navCtrl, animated: false)
 
@@ -216,19 +261,25 @@ class SearchModel: ObservableObject {
 
   func openNewSnippet() {
     self.newSnippetPresented = true
+
     let textView = TextViewBuilder.createForSnippetEditing()
     let editorCtrl = NewSnippetViewController(textView: textView, model: self)
     let navCtrl = UINavigationController(rootViewController: editorCtrl)
-    navCtrl.modalPresentationStyle = .formSheet
+    navCtrl.modalPresentationStyle = .pageSheet
+    navCtrl.isModalInPresentation = isPinnedMode
 
     if let sheetCtrl = navCtrl.sheetPresentationController {
-      sheetCtrl.prefersGrabberVisible = true
-      sheetCtrl.prefersEdgeAttachedInCompactHeight = true
-      sheetCtrl.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-      sheetCtrl.detents = [
-        .medium(), .large()
-      ]
+      if KBTracker.shared.isHardwareKB {
+        sheetCtrl.detents = [
+          .custom(resolver: { context in 120 }),
+          .medium(),
+          .large()
+        ]
+      } else {
+        sheetCtrl.detents = [.custom(resolver: { context in 120 }), .large()]
+      }
       sheetCtrl.largestUndimmedDetentIdentifier = .large
+      sheetCtrl.prefersGrabberVisible = true
     }
     rootCtrl?.present(navCtrl, animated: true)
 
@@ -240,11 +291,31 @@ class SearchModel: ObservableObject {
   }
 
   func sendContentToReceiver(content: String, shellOutputFormatter: ShellOutputFormatter) {
-    let content = shellOutputFormatter.format(content)
-    self.snippetContext?.providerSnippetReceiver()?.receive(content)
-    self.editingSnippet = nil
-    self.input = ""
-    self.snippetContext?.dismissSnippetsController()
+    let formatted = shellOutputFormatter.format(content)
+    self.snippetContext?.providerSnippetReceiver()?.receive(formatted)
+    cleanupAfterSend()
+  }
+
+  func sendPromptContentToReceiver(content: String) {
+    let formatted = ShellOutputFormatter.raw.format(content)
+    let receiver = self.snippetContext?.providerSnippetReceiver()
+    receiver?.receive(formatted)
+
+    // Prompt submit trails the content so shells don't read it as part of the same sequence.
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      receiver?.receive("\r")
+      self.cleanupAfterSend()
+    }
+  }
+
+  private func cleanupAfterSend() {
+    if isPinnedMode {
+      self.input = ""
+    } else {
+      self.editingSnippet = nil
+      self.input = ""
+      self.snippetContext?.dismissSnippetsController()
+    }
   }
 
   func close() {
@@ -254,7 +325,9 @@ class SearchModel: ObservableObject {
   @objc func closeEditor() {
     self.editingSnippet = nil
     self.newSnippetPresented = false
-    self.rootCtrl?.presentedViewController?.dismiss(animated: true)
+    self.rootCtrl?.presentedViewController?.dismiss(animated: true) {
+      self.focusOnInput()
+    }
   }
 
   func focusOnInput() {
@@ -323,8 +396,11 @@ public protocol SnippetContext {
 
 extension TermDevice: SnippetReceiver {
   public func receive(_ content: String) {
-    self.view?.paste(content)
-//    self.write(content)
+    if self.rawMode {
+      self.write(inDirectly: content)
+    } else {
+      self.view?.paste(content)
+    }
   }
 }
 

@@ -137,19 +137,23 @@ import Combine
   }
   
   override func becomeFirstResponder() -> Bool {
-    
+    // Don't become first responder if blocked (e.g., during Snips Input Mode)
+    if device?.shouldBlockFirstResponder == true {
+      return false
+    }
+
     sync(traits: KBTracker.shared.kbTraits, device: KBTracker.shared.kbDevice, hideSmartKeysWithHKB: KBTracker.shared.hideSmartKeysWithHKB)
-    
+
     let res = super.becomeFirstResponder()
-    
+
     if !webViewReady {
       return res
     }
-    
+
     device?.focus()
     kbView.isHidden = false
     setNeedsLayout()
-    
+
     _inputAccessoryView?.isHidden = false
 
     return res
@@ -429,6 +433,7 @@ extension SmarterTermInput {
       return true// UIPasteboard.general.string != nil
     case
       #selector(UIResponder.copy(_:)),
+      #selector(Self.copyRaw(_:)),
       #selector(UIResponder.cut(_:)):
       // When the action is requested from the keyboard, the sender will be nil.
       // In that case we let it go through to the WKWebView.
@@ -463,7 +468,11 @@ extension SmarterTermInput {
       device?.view?.copy(sender)
     }
   }
-  
+
+  @objc func copyRaw(_ sender: Any?) {
+    device?.view?.copyRaw(sender)
+  }
+
   override func paste(_ sender: Any?) {
     if shouldUseWKCopyAndPaste() {
       super.paste(sender)
@@ -471,7 +480,7 @@ extension SmarterTermInput {
       device?.view?.paste(sender)
     }
   }
-  
+
   @objc func copyLink(_ sender: Any) {
     guard
       let deviceView = device?.view,

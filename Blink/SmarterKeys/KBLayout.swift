@@ -75,10 +75,10 @@ extension KBLayout {
       .vertical2("/", "?",  traits: .default - .cmdOn),
     
       .vertical2(".", "!",  traits: .default - .cmdOff),
-          
+
       .vertical2(",", "%",  traits: .default - .cmdOff),
-      .vertical2(";", ":",  traits: .default - .cmdOff),
-      .vertical2("&", "'",  traits: .default - .cmdOff),
+      .vertical2("<", "*",  traits: .default - .cmdOff),
+      .vertical2(">", "\"",  traits: .default - .cmdOff),
       
       .vertical2(.f(1), .f(7),  traits: .default + .hkb - .cmdOff),
       .vertical2(.f(2), .f(8),  traits: .default + .hkb - .cmdOff),
@@ -91,6 +91,7 @@ extension KBLayout {
     ],
     [
       .arrows(traits: .default - .cmdOn),
+      .icon(.hideKB, traits: .default - .cmdOff),
       .wideKey(.cmd, traits: .default + .hkb),
     ])
   }
@@ -160,6 +161,8 @@ extension KBLayout {
      .key(.tab,  traits: .default - .cmdOn),
      ] + _iPad_9_7_middle(lang: lang) + [
      //
+     .vertical2("<", "*", traits: .default - .cmdOff),
+     .vertical2(">", "\"", traits: .default - .cmdOff),
      .vertical2(.f(1), .f(7),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
      .vertical2(.f(2), .f(8),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
      .vertical2(.f(3), .f(9),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
@@ -243,6 +246,8 @@ extension KBLayout {
       .key(.tab,  traits: .default - .cmdOn),
       ] + _iPad_10_5_middle(lang: lang) + [
       //
+      .vertical2("<", "*", traits: .default - .cmdOff),
+      .vertical2(">", "\"", traits: .default - .cmdOff),
       .vertical2(.f(1), .f(7),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
       .vertical2(.f(2), .f(8),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
       .vertical2(.f(3), .f(9),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
@@ -322,6 +327,8 @@ extension KBLayout {
       .arrows(traits: .default - .cmdOff),
     ], _iPad_11_middle(lang: lang) + [
       //
+      .vertical2("<", "*", traits: .default - .cmdOff),
+      .vertical2(">", "\"", traits: .default - .cmdOff),
       .vertical2(.f(1), .f(7),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
       .vertical2(.f(2), .f(8),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
       .vertical2(.f(3), .f(9),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
@@ -403,6 +410,8 @@ extension KBLayout {
       .wideKey(.alt,  traits: .defaultSuggestionsOnly),
     ], _iPad_12_9_middle(lang: lang) + [
       // -
+      .vertical2("<", "*", traits: .default - .cmdOff),
+      .vertical2(">", "\"", traits: .default - .cmdOff),
       .vertical2(.f(1), .f(7),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
       .vertical2(.f(2), .f(8),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
       .vertical2(.f(3), .f(9),  traits: .default - .cmdOff + .hkb + .suggestionsOn),
