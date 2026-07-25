@@ -80,7 +80,7 @@ struct SettingsView: View {
               Label("Build Beta", systemImage: "hammer.circle")
               Spacer()
               if _entitlements.earlyAccessFeatures.period == .Trial {
-                Text("Needs Blink+")
+                Text("Not available in trial")
               } else {
                 Text("") // TODO: show status?
                   .foregroundColor(.secondary)
